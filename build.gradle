@@ -1,0 +1,47 @@
+group 'sterling.string.service'
+version '1.0-SNAPSHOT'
+
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.1'
+    }
+}
+
+apply plugin: 'com.github.johnrengelman.shadow'
+apply plugin: 'java'
+
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'org.eclipse.jetty', name: 'jetty-server', version: '9.4.6.v20170531'
+    compile group: 'org.eclipse.jetty', name: 'jetty-servlet', version: '9.4.6.v20170531'
+    compile group: 'org.glassfish.jersey.core', name: 'jersey-common', version: '2.26-b09'
+    compile group: 'org.glassfish.jersey.inject', name: 'jersey-hk2', version: '2.26-b09'
+    compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: '2.26-b09'
+    compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet', version: '2.26-b09'
+
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.sterling.stringservice.app.AppServer'
+        attributes 'Description' : 'String Service application jar.'
+    }
+}
+
+shadowJar {
+    baseName = 'string-service'
+    classifier = null
+    version = 1.0
+}
