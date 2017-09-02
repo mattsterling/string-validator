@@ -30,6 +30,8 @@ dependencies {
     compile group: 'org.glassfish.jersey.inject', name: 'jersey-hk2', version: '2.26-b09'
     compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: '2.26-b09'
     compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet', version: '2.26-b09'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.9.0'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.9.0'
 
 }
 
@@ -41,6 +43,8 @@ jar {
 }
 
 shadowJar {
+    mergeServiceFiles()
+    configurations = [project.configurations.compile]
     baseName = 'string-service'
     classifier = null
     version = 1.0
