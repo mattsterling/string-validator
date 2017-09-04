@@ -1,6 +1,9 @@
 package com.sterling.stringservice.app;
 
 
+import com.sterling.stringservice.web.resource.StringServiceApplication;
+import com.sterling.stringservice.web.resource.StringV1Resource;
+import io.swagger.jaxrs.listing.ApiListingResource;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,9 +18,6 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
-
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 
 /**
  * Main entry point for the string validator service.
@@ -46,16 +46,22 @@ public class AppServer {
         }
 
         // Servlet holder for the resources
-        ResourceConfig config = new ResourceConfig();
-        config.packages("com.sterling.stringservice.web.resource");
+        ResourceConfig config = new StringServiceApplication();
+        config.packages(StringV1Resource.class.getPackage().getName(),
+                ApiListingResource.class.getPackage().getName());
         ServletHolder servlet = new ServletHolder(new ServletContainer(config));
-        // Make sure JSON object serialization is on.
-        servlet.setInitParameter("jersey.config.server.provider.classnames",
+        // Make sure JSON object serialization
+        servlet.setInitOrder(1);
+        servlet.setInitParameter(
+                "jersey.config.server.provider.classnames",
                 "org.glassfish.jersey.jackson.JacksonFeature");
+
 
         // Set up the server and the application root path
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+        context.setContextPath("/");
         context.addServlet(servlet,"/*");
+
         Server server = new Server(port);
         server.setHandler(context);
 

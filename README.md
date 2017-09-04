@@ -15,3 +15,6 @@ or
 
 ## How to run:
   java -jar build/libs/string-service-1.0.jar
+
+## View JSON Documentation of API:
+ curl -XGET http://localhost:8080/swagger.json

@@ -32,6 +32,7 @@ dependencies {
     compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet', version: '2.26-b09'
     compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.9.0'
     compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.9.0'
+    compile group: 'io.swagger', name: 'swagger-jersey2-jaxrs', version: '1.5.0'
 
 }
 

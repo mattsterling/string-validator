@@ -4,6 +4,9 @@ package com.sterling.stringservice.web.resource;
 import com.sterling.stringservice.model.ValidateResponse;
 import com.sterling.stringservice.validator.StringValidator;
 import com.sterling.stringservice.validator.StringValidatorFactory;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,7 +19,8 @@ import javax.ws.rs.core.Response;
  * String validation resource. For this purpose the api takes in a string, and validation type.
  * This example has only one type of validation, panagram, and will fail if anything else is provided.
  */
-@Path("/string-service/v1")
+@Path("string-service/v1")
+@Api(value ="/string-service/v1")
 public class StringV1Resource {
     private static final Logger LOG = LogManager.getLogger(StringV1Resource.class);
 
@@ -29,9 +33,12 @@ public class StringV1Resource {
      */
     @GET
     @Path("/validate/{input}")
+    @ApiOperation(value = "Validates an input string." ,
+            notes="Default validation type is PANAGRAM",
+            response = ValidateResponse.class)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response validate(@PathParam("input") final String input,
-                             @QueryParam("type") String validationType) {
+    public Response validate(@ApiParam(value = "String to be validated", required = true) @PathParam("input") final String input,
+                             @ApiParam(value = "Validation type to perform", required = false) @QueryParam("type") String validationType) {
         // Check for the type of validation to perform.
         ValidateResponse.ValidationType type = null;
         LOG.debug(String.format("Request provided validation type %s", validationType));
